@@ -71,7 +71,7 @@
 | PLAT-02 | 1 | Serverless Function deployed, erreichbar unter `/api/*`, Logs sichtbar |
 | PLAT-03 | 1 | Ollama Health-Check grün, Anthropic Proxy Call erfolgreich, Fallback bei lokalem Fehler |
 | PLAT-04 | 1 | 5 Dateiformate uploadbar → UnifiedTextObject mit content, structure, metadata |
-| PERS-01 | 2 | CRUD UI für Personas, Zod-Schema validiert, in IndexedDB persistiert |
+| PERS-01 | 1 | CRUD UI für Personas, Zod-Schema validiert, in IndexedDB persistiert |
 | PERS-02 | 2 | 7 Personas im Default-Set, je mit distinct system prompt + params |
 | PERS-03 | 2 | Klick auf Persona-Card → Streaming-Response in ResultViewer |
 | PERS-04 | 2 | DiffView rendert, InlineComments anklickbar, Raw-Text kopierbar |
@@ -85,7 +85,7 @@
 | CTRL-04 | 3 | Metrics berechnet Flesch/Wiener, SEO-Score, Custom, zeigt Dashboard |
 | WFLOW-01 | 2 | React Flow Canvas: Nodes hinzufügen, verbinden, löschen, validieren |
 | WFLOW-02 | 2 | 3 Node-Typen visuell unterscheidbar, Kategorie-Filter in Palette |
-| WFLOW-03 | 2 | Branch-Node (if/else), Loop-Node (for-each), Parallel-Execution sichtbar |
+| WFLOW-03 | 4 | Branch-Node (if/else), Loop-Node (for-each), Parallel-Execution sichtbar |
 | WFLOW-04 | 2 | Export .workflow.json, Import validiert Schema, Version feld vorhanden |
 | EXPT-01 | 2 | Monaco DiffEditor zeigt Side-by-Side + Unified, Wort-Zeichen-Zeile umschaltbar |
 | EXPT-02 | 2 | Inline Decorations an Diff-Ankern, Kategorien farbig, Hover → Tooltip |
@@ -97,5 +97,7 @@
 | UX-04 | 1 | Settings Modal: Endpoints testbar, Keys maskiert, Presets export/import |
 
 ---
+
 *Requirements defined: 2025-06-29*
 *Based on: FEATURES.md MVP Definition + Research*
+*Traceability updated: 2025-06-29 (aligned with ROADMAP.md 5-phase structure)*
