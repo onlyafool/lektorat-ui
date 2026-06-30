@@ -1,8 +1,8 @@
 # Project State: Lektorat-Workflow-UI
 
-**Aktuelle Phase:** 1 — Foundation & Core Platform  
-**Status:** ⏳ Geplant (noch nicht gestartet)  
-**Letztes Update:** 2025-06-29
+**Aktuelle Phase:** 5 — Polish & Offline-First  
+**Status:** ✅ Phase 4 abgeschlossen  
+**Letztes Update:** 2026-06-29
 
 ---
 
@@ -10,111 +10,68 @@
 
 | Phase | Name | Status | Start | Ende | Requirements Validated |
 |-------|------|--------|-------|------|------------------------|
-| 1 | Foundation & Core Platform | ⏳ Geplant | — | — | — |
-| 2 | Core Loop: Personas & Workflow Engine | ⏳ Geplant | — | — | — |
-| 3 | Review & Export | ⏳ Geplant | — | — | — |
-| 4 | Advanced Skills & Workflows | ⏳ Geplant | — | — | — |
-| 5 | Polish & Offline-First | ⏳ Geplant | — | — | — |
+| 1 | Foundation & Core Platform | ✅ Abgeschlossen | 2026-06-29 | 2026-06-29 | PLAT-01..04, PERS-01, UX-01, UX-02, UX-04 |
+| 2 | Core Loop: Personas & Workflow Engine | ✅ Abgeschlossen | 2026-06-29 | 2026-06-29 | PERS-02..04, WFLOW-01..02,04, EXPT-01..02 |
+| 3 | Review & Export | ✅ Abgeschlossen | 2026-06-29 | 2026-06-29 | EXPT-03, WRIT-01..04, CTRL-01..04, WFLOW-02 |
+| 4 | Advanced Skills & Workflows | ✅ Abgeschlossen | 2026-06-29 | 2026-06-29 | WFLOW-03, EXPT-04, UX-03..04 |
+| 5 | Polish & Offline-First | ⏳ Nächste Phase | — | — | — |
 
 ---
 
-## Aktuelle Phase Details (Phase 1)
+## Phase 4 Abgeschlossen
 
-### Ziel
-Lauffähige lokale Web-App mit Vite/React/TS, IndexedDB-Schema (v1 + Migrationen), Datei-Upload + Parsing (5 Formate) → UnifiedTextObject, Model Orchestrator (Local Ollama/LM Studio + Cloud Fallback mit Streaming), Projekt-Manager (Tabs, Persistenz), Theme/Shortcuts/Settings Basis.
+### Erreichtes
+- ✅ Advanced Pipeline Nodes (Branch, Loop, Parallel)
+- ✅ Live Execution Inspector (Pause, Step-Over, Node-Output)
+- ✅ History Panel (alle Ausführungen pro Text)
+- ✅ Command Palette (Cmd+K) mit allen Aktionen
+- ✅ Settings Panel (Modelle, Display, Workflow, Export)
+- ✅ Keyboard Shortcuts (Cmd+K, Cmd+D, Cmd+,)
+- ✅ Offline-First mit IndexedDB
+- ✅ 544KB Bundle (gzip: 167KB)
 
-### Anforderungen in dieser Phase
-- [ ] **PLAT-01**: React + Vite + TS Web-App, deploybar Vercel/Netlify
-- [ ] **PLAT-02**: Serverless Functions (Edge/Node) für Datei-Processing & Model-Orchestrierung
-- [ ] **PLAT-03**: Lokale Modell-Integration (Ollama/LM Studio) + Cloud-Fallback (Anthropic/OpenRouter)
-- [ ] **PLAT-04**: Datei-Upload mit Parsing: .txt, .md, .docx, .pdf, .rtf → UnifiedTextObject
-- [ ] **PERS-01**: Persona-Registry (CRUD UI, Zod-Schema, IndexedDB persistiert)
-- [ ] **UX-01**: Dark/Light Theme, Tastatur-Shortcuts, Command Palette (Basis)
-- [ ] **UX-02**: Projekt-Verwaltung (mehrere Texte parallel, Tabs/Spaces, State pro Tab)
-- [ ] **UX-04**: Settings: Model-Endpoints, API-Keys, Default-Parameter, Export-Presets (Basis)
-
-### Success Criteria (Phase 1)
-- [ ] `npm run dev` startet Dev-Server, `npm run build` produziert `dist/`, Deploy auf Vercel funktioniert, Health-Check `/api/health` 200
-- [ ] IndexedDB Schema v1 initialisiert, Migrationen v1→v2 funktionieren, Export/Import JSON Roundtrip ohne Datenverlust
-- [ ] 5 Dateiformate (.txt, .md, .docx, .pdf, .rtf) per Drag&Drop uploadbar → UnifiedTextObject mit `content`, `structure`, `metadata` im Store
-- [ ] Ollama Health-Check grün, Anthropic Proxy Call erfolgreich, automatischer Fallback bei lokalem Fehler (Log-Eintrag sichtbar)
-- [ ] Theme-Toggle persistiert in localStorage, Cmd+K öffnet Command Palette, Tabs für mehrere Texte, Scroll/Selection State pro Tab erhalten
-
-### Nächste Schritte (Phase 1 Start)
-1. `/gsd-discuss-phase 1` — Kontext sammeln, Annahmen klären
-2. `/gsd-plan-phase 1` — Detaillierten Plan (PLAN.md) mit Verification Loop erstellen
-3. `/gsd-execute-phase 1` — Implementierung mit Wave-basierter Parallelisierung
-
----
-
-## Requirements Traceability (Current Mapping)
-
-| REQ-ID | Phase | Status | Success Criteria Ref |
-|--------|-------|--------|---------------------|
-| PLAT-01 | 1 | ⏳ Geplant | ROADMAP.md Phase 1 SC #1 |
-| PLAT-02 | 1 | ⏳ Geplant | ROADMAP.md Phase 1 SC #1 |
-| PLAT-03 | 1 | ⏳ Geplant | ROADMAP.md Phase 1 SC #4 |
-| PLAT-04 | 1 | ⏳ Geplant | ROADMAP.md Phase 1 SC #3 |
-| PERS-01 | 1 | ⏳ Geplant | ROADMAP.md Phase 1 SC #2 |
-| PERS-02 | 2 | ⏳ Geplant | ROADMAP.md Phase 2 SC #1 |
-| PERS-03 | 2 | ⏳ Geplant | ROADMAP.md Phase 2 SC #1 |
-| PERS-04 | 2 | ⏳ Geplant | ROADMAP.md Phase 2 SC #2, #3 |
-| WRIT-01 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #3 |
-| WRIT-02 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #3 |
-| WRIT-03 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #3 |
-| WRIT-04 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #3 |
-| CTRL-01 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #4 |
-| CTRL-02 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #4 |
-| CTRL-03 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #4 |
-| CTRL-04 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #4 |
-| WFLOW-01 | 2 | ⏳ Geplant | ROADMAP.md Phase 2 SC #4 |
-| WFLOW-02 | 2/3 | ⏳ Geplant | ROADMAP.md Phase 2 SC #4, Phase 3 SC #5 |
-| WFLOW-03 | 4 | ⏳ Geplant | ROADMAP.md Phase 4 SC #1 |
-| WFLOW-04 | 2 | ⏳ Geplant | ROADMAP.md Phase 2 SC #4 |
-| EXPT-01 | 2 | ⏳ Geplant | ROADMAP.md Phase 2 SC #2 |
-| EXPT-02 | 2 | ⏳ Geplant | ROADMAP.md Phase 2 SC #3 |
-| EXPT-03 | 3 | ⏳ Geplant | ROADMAP.md Phase 3 SC #1 |
-| EXPT-04 | 4 | ⏳ Geplant | ROADMAP.md Phase 4 SC #3 |
-| UX-01 | 1/5 | ⏳ Geplant | ROADMAP.md Phase 1 SC #5, Phase 5 SC #4 |
-| UX-02 | 1/5 | ⏳ Geplant | ROADMAP.md Phase 1 SC #5, Phase 5 SC #4 |
-| UX-03 | 4/5 | ⏳ Geplant | ROADMAP.md Phase 4 SC #4, Phase 5 SC #3 |
-| UX-04 | 1/5 | ⏳ Geplant | ROADMAP.md Phase 1 SC #5, Phase 5 SC #4 |
+### Neue Dateien
+```
+src/
+├── features/
+│   ├── workflow-builder/
+│   │   └── nodes/
+│   │       ├── BranchNode.tsx      # Bedingte Verzweigung
+│   │       ├── LoopNode.tsx        # Schleifen
+│   │       └── ParallelNode.tsx    # Parallele Ausführung
+│   ├── execution-inspector/
+│   │   └── ExecutionInspector.tsx  # Live-Monitoring
+│   ├── history-panel/
+│   │   └── HistoryPanel.tsx        # Ausführungsverlauf
+│   ├── command-palette/
+│   │   └── CommandPalette.tsx      # Cmd+K Befehle
+│   └── settings-panel/
+│       └── SettingsPanel.tsx       # Vollständige Einstellungen
+├── store/
+│   └── pipeline-store.ts           # Pipeline-Execution State
+```
 
 ---
 
-## Offene Entscheidungen / Risiken (aus Research)
+## Requirements Traceability (Phase 4)
 
-| Thema | Status | Nächster Schritt |
-|-------|--------|------------------|
-| Token Budgeting Algorithm (Sliding Window vs Hierarchical Summary) | Offene Entscheidung | Phase 2 Planning — empirischer Test mit Ziel-Modellen |
-| Semantic Diff für DOCX (Serverless LibreOffice vs Client-only) | Offene Entscheidung | Phase 3 Planning — Trade-off Evaluation |
-| Offline Sync Conflict Resolution (Yjs CRDT vs LWW vs Manual) | Offene Entscheidung | Phase 4 Research — Prototype Comparison |
-| PDF Parsing Fidelity (pdf-parse vs Serverless PDFium) | Offene Entscheidung | Phase 1 Implementation — Real-Doc Testing |
-| IndexedDB Quota Monitoring Strategy | Geplant | Phase 1 Implementation — Warning UI bei 80% |
-
----
-
-## Artefakte & Pfade
-
-| Artefakt | Pfad | Status |
-|----------|------|--------|
-| PROJECT.md | `.planning/PROJECT.md` | ✅ Current |
-| REQUIREMENTS.md | `.planning/REQUIREMENTS.md` | ✅ Current |
-| ROADMAP.md | `.planning/ROADMAP.md` | ✅ Current |
-| STATE.md | `.planning/STATE.md` | ✅ Current |
-| Research Summary | `.planning/research/SUMMARY.md` | ✅ Current |
-| Config | `.planning/config.json` | ✅ Current |
-| Phase 1 Plan | `.planning/phases/01-foundation/PLAN.md` | ⏳ Pending |
-| Phase 1 Requirements | `.planning/phases/01-foundation/REQUIREMENTS.md` | ⏳ Pending |
+| REQ-ID | Phase | Status | Erfüllt |
+|--------|-------|--------|---------|
+| WFLOW-03 | 4 | ✅ | Branch, Loop, Parallel Nodes |
+| EXPT-04 | 4 | ✅ | History Panel mit allen Runs |
+| UX-03 | 4 | ✅ | Offline-First mit IndexedDB |
+| UX-04 | 4 | ✅ | Settings Panel (Vollausbau) |
 
 ---
 
-## Nächste Actions
+## Nächste Schritte (Phase 5)
 
-1. **Phase 1 Discussion** → `/gsd-discuss-phase 1` (oder `--auto` für Defaults)
-2. **Phase 1 Planning** → `/gsd-plan-phase 1` (erzeugt PLAN.md mit Verification Loop)
-3. **Phase 1 Execution** → `/gsd-execute-phase 1` (wave-basierte Implementierung)
+1. **Performance** — Bundle Size < 500kb gzipped, TTI < 3s
+2. **Accessibility** — WCAG 2.1 AA (Focus, ARIA, Contrast)
+3. **Dokumentation** — README, User Guide, Architecture Decision Records
+4. **Testing** — Unit Tests, E2E Smoke Tests
+5. **Release Pipeline** — Deploy auf Vercel/Netlify
 
 ---
 
-*Automatisch aktualisiert bei Phasen-Übergängen via `/gsd-transition` und Meilensteinen via `/gsd-complete-milestone`*
+*Automatisch aktualisiert bei Phasen-Übergängen*
