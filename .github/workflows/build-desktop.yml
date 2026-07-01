@@ -30,19 +30,21 @@ jobs:
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Verify dist output
+        shell: pwsh
         run: |
           echo "=== dist/index.html ==="
-          cat dist/index.html
+          Get-Content dist\index.html
           echo "=== dist contents ==="
-          dir dist /s /b
+          Get-ChildItem dist -Recurse | Select-Object FullName
 
       - run: npx electron-builder --win
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify asar contents
+        shell: pwsh
         run: |
-          npx asar list release\win-unpacked\resources\app.asar | findstr /i "dist electron package.json"
+          npx asar list release\win-unpacked\resources\app.asar | Select-String "dist|electron|package\.json"
 
       - uses: actions/upload-artifact@v4
         with:
