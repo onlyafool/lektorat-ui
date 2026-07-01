@@ -24,7 +24,6 @@ jobs:
 
       - run: npm run build
         env:
-          ELECTRON: 'true'
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
@@ -51,7 +50,6 @@ jobs:
 
       - run: npm run build
         env:
-          ELECTRON: 'true'
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 

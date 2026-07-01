@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
 export default defineConfig({
-  base: process.env.ELECTRON === 'true' ? './' : process.env.CI === 'true' ? '/lektorat-ui/' : '/',
+  base: './',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
