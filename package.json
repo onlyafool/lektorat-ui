@@ -6,12 +6,41 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "electron:dev": "concurrently \"vite\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:win": "npm run build && electron-builder --win",
+    "electron:build:mac": "npm run build && electron-builder --mac",
+    "electron:build:all": "npm run build && electron-builder --win --mac",
     "lint": "oxlint",
     "preview": "vite preview",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit"
+  },
+  "main": "electron/main.cjs",
+  "build": {
+    "appId": "com.lektorat.ui",
+    "productName": "Lektorat",
+    "files": [
+      "dist/**/*",
+      "electron/**/*.cjs"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/favicon.svg"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/favicon.svg"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
@@ -35,11 +64,15 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.2",
+    "concurrently": "^10.0.3",
+    "electron": "^43.0.0",
+    "electron-builder": "^26.15.3",
     "jsdom": "^25.0.1",
     "oxlint": "^1.69.0",
     "tailwindcss": "^4.3.1",
     "typescript": "~6.0.2",
     "vite": "^8.1.0",
-    "vitest": "^3.1.4"
+    "vitest": "^3.1.4",
+    "wait-on": "^9.0.10"
   }
 }
