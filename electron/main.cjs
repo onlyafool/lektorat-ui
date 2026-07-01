@@ -1,4 +1,4 @@
-const { app, BrowserWindow, shell } = require('electron')
+const { app, BrowserWindow, shell, Menu } = require('electron')
 const path = require('path')
 
 const isDev = !app.isPackaged
@@ -24,11 +24,32 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:3000')
     mainWindow.webContents.openDevTools()
   } else {
-    mainWindow.loadFile(path.join(__dirname, '..', 'dist', 'index.html'))
+    const filePath = path.join(__dirname, '..', 'dist', 'index.html')
+    console.log('[Main] Loading file:', filePath)
+    mainWindow.loadFile(filePath)
+    // Open DevTools in production for debugging (can be removed later)
     mainWindow.webContents.openDevTools()
   }
 
-  mainWindow.setMenu(null)
+  Menu.setApplicationMenu(null)
+
+  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription) => {
+    console.error('Page failed to load:', errorCode, errorDescription)
+    // Show a visible error page instead of blank white
+    mainWindow.loadURL(`data:text/html,
+      <html>
+        <body style="background:#111827;color:#e2e8f0;font-family:sans-serif;padding:40px;text-align:center">
+          <h1>Seite konnte nicht geladen werden</h1>
+          <p style="color:#94a3b8">Fehler ${errorCode}: ${errorDescription}</p>
+          <p style="color:#94a3b8">Pfad: ${path.join(__dirname, '..', 'dist', 'index.html')}</p>
+        </body>
+      </html>
+    `)
+  })
+
+  mainWindow.webContents.on('console-message', (_event, level, message) => {
+    console.log('[Renderer]', message)
+  })
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url)

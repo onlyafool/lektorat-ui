@@ -27,8 +27,20 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
 
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      set({ user: session?.user ?? null, isLoading: false })
+      // Timeout after 5 seconds so the app doesn't hang in Electron
+      const sessionPromise = supabase.auth.getSession()
+      const timeoutPromise = new Promise<null>((resolve) =>
+        setTimeout(() => resolve(null), 5000)
+      )
+
+      const result = await Promise.race([sessionPromise, timeoutPromise])
+
+      if (result === null) {
+        console.warn('[Auth] getSession timed out after 5s, continuing without auth')
+        set({ user: null, isLoading: false })
+      } else {
+        set({ user: result.data.session?.user ?? null, isLoading: false })
+      }
 
       // Listen for auth changes
       supabase.auth.onAuthStateChange((_event, session) => {
