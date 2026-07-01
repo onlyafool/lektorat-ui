@@ -4,10 +4,8 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
-const isCI = process.env.CI === 'true'
-
 export default defineConfig({
-  base: isCI ? '/lektorat-ui/' : '/',
+  base: process.env.ELECTRON === 'true' ? './' : process.env.CI === 'true' ? '/lektorat-ui/' : '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
