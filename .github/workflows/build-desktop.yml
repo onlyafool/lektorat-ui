@@ -32,19 +32,35 @@ jobs:
       - name: Verify dist output
         shell: pwsh
         run: |
+          echo "=== env vars ==="
+          echo "VITE_SUPABASE_URL=$env:VITE_SUPABASE_URL"
+          echo "VITE_SUPABASE_ANON_KEY set=$(if ($env:VITE_SUPABASE_ANON_KEY) { 'yes' } else { 'no' })"
           echo "=== dist/index.html ==="
           Get-Content dist\index.html
-          echo "=== dist contents ==="
-          Get-ChildItem dist -Recurse | Select-Object FullName
+          echo "=== dist/assets ==="
+          Get-ChildItem dist\assets | Select-Object Name,Length
+          echo "=== tsconfig.app.json ==="
+          Get-Content tsconfig.app.json 2>$null
+          echo "=== vite.config.ts ==="
+          Get-Content vite.config.ts 2>$null
 
       - run: npx electron-builder --win
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Verify asar contents
+      - name: Verify build output
         shell: pwsh
         run: |
-          npx asar list release\win-unpacked\resources\app.asar | Select-String "dist|electron|package\.json"
+          echo "=== builder-debug.yml ==="
+          Get-Content release\builder-debug.yml 2>$null
+          echo "=== win-unpacked contents ==="
+          Get-ChildItem release\win-unpacked | Select-Object Name
+          echo "=== app.asar exists ==="
+          Test-Path release\win-unpacked\resources\app.asar
+          echo "=== asar top-level ==="
+          npx asar list release\win-unpacked\resources\app.asar 2>$null | Select-Object -First 30
+          echo "=== Lektorat.exe size ==="
+          (Get-Item release\win-unpacked\Lektorat.exe).Length
 
       - uses: actions/upload-artifact@v4
         with:

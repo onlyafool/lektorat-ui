@@ -1,18 +1,56 @@
 const { app, BrowserWindow, shell, Menu } = require('electron')
 const path = require('path')
+const fs = require('fs')
 
 const isDev = !app.isPackaged
 
+// File-based logging for production debugging
+const logDir = path.join(app.getPath('userData'), 'logs')
+let logFile = null
+try {
+  if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true })
+  logFile = path.join(logDir, 'main-' + Date.now() + '.log')
+} catch (_) {}
+
+function log(level, ...args) {
+  const ts = new Date().toISOString()
+  const msg = `[${ts}] [${level}] ${args.join(' ')}`
+  console.log(msg)
+  if (logFile) {
+    try { fs.appendFileSync(logFile, msg + '\n') } catch (_) {}
+  }
+}
+
+// Global error handlers
+process.on('uncaughtException', (err) => {
+  log('FATAL', 'Uncaught exception:', err.stack || err.message || String(err))
+})
+process.on('unhandledRejection', (reason) => {
+  log('FATAL', 'Unhandled rejection:', reason instanceof Error ? reason.stack || reason.message : String(reason))
+})
+
 let mainWindow
 
+function showErrorPage(title, details) {
+  if (!mainWindow) return
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${title}</title></head>
+<body style="background:#111827;color:#e2e8f0;font-family:system-ui,sans-serif;padding:40px;max-width:800px;margin:0 auto">
+<h1 style="color:#ef4444">${title}</h1>
+<pre style="background:#1e293b;padding:16px;border-radius:8px;overflow-x:auto;font-size:13px;white-space:pre-wrap">${details}</pre>
+<p style="color:#64748b;font-size:12px">Log-Datei: ${logFile || 'nicht verfügbar'}</p>
+</body></html>`
+  mainWindow.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(html))
+}
+
 function createWindow() {
+  log('INFO', 'Creating BrowserWindow...')
   mainWindow = new BrowserWindow({
     width: 1400,
     height: 900,
     minWidth: 1000,
     minHeight: 600,
     title: 'Lektorat',
-    icon: path.join(__dirname, '..', 'public', 'favicon.svg'),
+    icon: path.join(__dirname, '..', 'dist', 'favicon.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),
       contextIsolation: true,
@@ -20,35 +58,72 @@ function createWindow() {
     },
   })
 
+  Menu.setApplicationMenu(null)
+
   if (isDev) {
+    log('INFO', 'Dev mode - loading localhost:3000')
     mainWindow.loadURL('http://localhost:3000')
     mainWindow.webContents.openDevTools()
   } else {
     const filePath = path.join(__dirname, '..', 'dist', 'index.html')
-    console.log('[Main] Loading file:', filePath)
+    log('INFO', 'Production mode - loading:', filePath)
+    log('INFO', '__dirname:', __dirname)
+    log('INFO', 'File exists:', fs.existsSync(filePath))
+
+    // Log the dist directory contents
+    const distDir = path.join(__dirname, '..', 'dist')
+    try {
+      if (fs.existsSync(distDir)) {
+        const files = fs.readdirSync(distDir)
+        log('INFO', 'dist/ contents:', files.join(', '))
+      } else {
+        log('ERROR', 'dist/ directory does not exist at:', distDir)
+      }
+    } catch (e) {
+      log('ERROR', 'Failed to read dist/ directory:', e.message)
+    }
+
+    // Log asar path
+    log('INFO', 'App path:', app.getAppPath())
+    log('INFO', 'Resource path:', process.resourcesPath)
+
     mainWindow.loadFile(filePath)
-    // Open DevTools in production for debugging (can be removed later)
+
+    // Open DevTools in production for debugging
     mainWindow.webContents.openDevTools()
   }
 
-  Menu.setApplicationMenu(null)
+  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL) => {
+    log('ERROR', 'Page failed to load:', errorCode, errorDescription, 'URL:', validatedURL)
+    showErrorPage(
+      'Seite konnte nicht geladen werden',
+      `Fehler ${errorCode}: ${errorDescription}\nURL: ${validatedURL}\nPfad: ${path.join(__dirname, '..', 'dist', 'index.html')}\n__dirname: ${__dirname}\nApp-Pfad: ${app.getAppPath()}\nResources: ${process.resourcesPath}\nLog: ${logFile || 'nicht verfügbar'}`
+    )
+  })
 
-  mainWindow.webContents.on('did-fail-load', (_event, errorCode, errorDescription) => {
-    console.error('Page failed to load:', errorCode, errorDescription)
-    // Show a visible error page instead of blank white
-    mainWindow.loadURL(`data:text/html,
-      <html>
-        <body style="background:#111827;color:#e2e8f0;font-family:sans-serif;padding:40px;text-align:center">
-          <h1>Seite konnte nicht geladen werden</h1>
-          <p style="color:#94a3b8">Fehler ${errorCode}: ${errorDescription}</p>
-          <p style="color:#94a3b8">Pfad: ${path.join(__dirname, '..', 'dist', 'index.html')}</p>
-        </body>
-      </html>
-    `)
+  mainWindow.webContents.on('did-finish-load', () => {
+    log('INFO', 'Page loaded successfully')
   })
 
   mainWindow.webContents.on('console-message', (_event, level, message) => {
-    console.log('[Renderer]', message)
+    const levels = ['verbose', 'info', 'warning', 'error']
+    log('RENDERER', `[${levels[level] || level}] ${message}`)
+  })
+
+  mainWindow.webContents.on('crashed', (_event, code) => {
+    log('FATAL', 'Renderer process crashed with code:', code)
+    showErrorPage(
+      'Renderer-Prozess abgestürzt',
+      `Code: ${code}\nLog-Datei: ${logFile || 'nicht verfügbar'}`
+    )
+  })
+
+  mainWindow.webContents.on('render-process-gone', (_event, details) => {
+    log('FATAL', 'Render process gone:', details.reason, details.exitCode)
+    showErrorPage(
+      'Renderer-Prozess beendet',
+      `Grund: ${details.reason}\nExit-Code: ${details.exitCode}\nLog-Datei: ${logFile || 'nicht verfügbar'}`
+    )
   })
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
@@ -61,7 +136,14 @@ function createWindow() {
   })
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  log('INFO', 'App ready, Electron version:', process.versions.electron)
+  log('INFO', 'Chrome version:', process.versions.chrome)
+  log('INFO', 'Node version:', process.versions.node)
+  log('INFO', 'Platform:', process.platform, process.arch)
+  log('INFO', 'isPackaged:', app.isPackaged)
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
