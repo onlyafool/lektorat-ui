@@ -4,13 +4,20 @@ const fs = require('fs')
 
 const isDev = !app.isPackaged
 
-// File-based logging for production debugging
-const logDir = path.join(app.getPath('userData'), 'logs')
+// File-based logging - write next to the exe so it always works
 let logFile = null
 try {
+  const logDir = path.join(path.dirname(process.execPath), 'logs')
   if (!fs.existsSync(logDir)) fs.mkdirSync(logDir, { recursive: true })
   logFile = path.join(logDir, 'main-' + Date.now() + '.log')
-} catch (_) {}
+} catch (_) {
+  // Fallback: write to user data dir (only works when app is ready)
+  try {
+    const logDir2 = path.join(app.getPath('userData'), 'logs')
+    if (!fs.existsSync(logDir2)) fs.mkdirSync(logDir2, { recursive: true })
+    logFile = path.join(logDir2, 'main-' + Date.now() + '.log')
+  } catch (_) {}
+}
 
 function log(level, ...args) {
   const ts = new Date().toISOString()

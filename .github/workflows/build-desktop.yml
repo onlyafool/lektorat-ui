@@ -67,6 +67,11 @@ jobs:
           name: windows-setup
           path: release/*.exe
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-unpacked
+          path: release/win-unpacked/
+
   build-mac:
     runs-on: macos-latest
     steps:
