@@ -75,7 +75,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   signInWithGoogle: async () => {
     if (!isSupabaseConfigured || !supabase) {
-      return { error: 'Supabase nicht konfiguriert.' } }
+      return { error: 'Supabase nicht konfiguriert.' }
     }
 
     // In Electron: use custom protocol for OAuth callback
