@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
+import { useEffect } from 'react'
 
 interface AuthState {
   user: User | null
@@ -15,7 +16,7 @@ interface AuthState {
   signOut: () => Promise<void>
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   isLoading: true,
   isConfigured: isSupabaseConfigured,
@@ -74,13 +75,18 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   signInWithGoogle: async () => {
     if (!isSupabaseConfigured || !supabase) {
-      return { error: 'Supabase nicht konfiguriert.' }
+      return { error: 'Supabase nicht konfiguriert.' } }
     }
+
+    // In Electron: use custom protocol for OAuth callback
+    const redirectTo = window.location.origin.startsWith('file:')
+      ? 'lektorat://auth/callback'
+      : window.location.origin + '/auth/callback'
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.location.origin + '/lektorat-ui/',
+        redirectTo: redirectTo,
       },
     })
     if (error) return { error: error.message }

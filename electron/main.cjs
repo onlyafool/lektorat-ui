@@ -1,8 +1,31 @@
-const { app, BrowserWindow, shell, Menu } = require('electron')
+const { app, BrowserWindow, shell, Menu, session } = require('electron')
 const path = require('path')
 const fs = require('fs')
 
 const isDev = !app.isPackaged
+
+// Custom protocol for OAuth callbacks in Electron
+if (!isDev) {
+  try {
+    if (process.platform === 'win32') {
+      app.setAsDefaultProtocolClient('lektorat')
+    }
+    app.on('open-url', (event, url) => {
+      event.preventDefault()
+      handleOAuthCallback(url)
+    })
+    app.on('open-file', (event, path) => {
+      event.preventDefault()
+    })
+  } catch (_) {}
+}
+
+function handleOAuthCallback(url) {
+  // Extract the code from the URL and send to renderer
+  if (mainWindow && mainWindow.webContents) {
+    mainWindow.webContents.send('oauth-callback', url)
+  }
+}
 
 // File-based logging - write next to the exe so it always works
 let logFile = null
