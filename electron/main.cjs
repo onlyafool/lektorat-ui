@@ -5,10 +5,11 @@ const fs = require('fs')
 const isDev = !app.isPackaged
 
 // Custom protocol for OAuth callbacks in Electron
-if (!isDev) {
+function registerCustomProtocol() {
   try {
     if (process.platform === 'win32') {
-      app.setAsDefaultProtocolClient('lektorat')
+      const isSet = app.setAsDefaultProtocolClient('lektorat')
+      log('INFO', 'Custom protocol registered:', isSet)
     }
     app.on('open-url', (event, url) => {
       event.preventDefault()
@@ -17,7 +18,9 @@ if (!isDev) {
     app.on('open-file', (event, path) => {
       event.preventDefault()
     })
-  } catch (_) {}
+  } catch (error) {
+    log('ERROR', 'Failed to register custom protocol:', error.message)
+  }
 }
 
 function handleOAuthCallback(url) {
@@ -179,6 +182,10 @@ app.whenReady().then(() => {
   log('INFO', 'Node version:', process.versions.node)
   log('INFO', 'Platform:', process.platform, process.arch)
   log('INFO', 'isPackaged:', app.isPackaged)
+  
+  // Register custom protocol for OAuth
+  registerCustomProtocol()
+  
   createWindow()
 })
 

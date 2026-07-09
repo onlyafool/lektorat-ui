@@ -74,9 +74,18 @@ export const useAuthStore = create<AuthState>((set) => ({
       return { error: 'Supabase nicht konfiguriert.' }
     }
 
-    const redirectTo = window.location.origin.startsWith('file:')
-      ? 'lektorat://auth/callback'
-      : window.location.origin + '/lektorat-ui/'
+    let redirectTo: string
+    const isElectron = typeof window !== 'undefined' && 
+      !window.navigator.userAgent.includes('Chrome') &&
+      window.location.protocol === 'file:'
+
+    if (isElectron) {
+      redirectTo = 'lektorat://auth/callback'
+    } else if (window.location.origin.startsWith('file:')) {
+      redirectTo = 'lektorat://auth/callback'
+    } else {
+      redirectTo = window.location.origin + '/lektorat-ui/'
+    }
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
