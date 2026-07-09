@@ -95,10 +95,17 @@ function createWindow() {
     mainWindow.loadURL('http://localhost:3000')
     mainWindow.webContents.openDevTools()
   } else {
-    const filePath = path.join(__dirname, '..', 'dist', 'index.html')
-    log('INFO', 'Production mode - loading:', filePath)
-    log('INFO', '__dirname:', __dirname)
-    log('INFO', 'File exists:', fs.existsSync(filePath))
+const filePath = path.join(__dirname, '..', 'dist', 'index.html')
+log('INFO', 'Production mode - loading:', filePath)
+log('INFO', '__dirname:', __dirname)
+log('INFO', 'File exists:', fs.existsSync(filePath))
+
+// Additional debug logs for CI white-screen issue
+log('INFO', 'app.getAppPath():', app.getAppPath())
+log('INFO', 'process.resourcesPath:', process.resourcesPath)
+log('INFO', 'dist/ exists:', fs.existsSync(path.join(__dirname, '..', 'dist')))
+log('INFO', 'dist/index.html exists:', fs.existsSync(path.join(__dirname, '..', 'dist', 'index.html')))
+log('INFO', 'assets/ exists:', fs.existsSync(path.join(__dirname, '..', 'dist', 'assets')))
 
     // Log the dist directory contents
     const distDir = path.join(__dirname, '..', 'dist')

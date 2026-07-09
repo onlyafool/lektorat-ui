@@ -1,14 +1,12 @@
 import { create } from 'zustand'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import type { User } from '@supabase/supabase-js'
-import { useEffect } from 'react'
 
 interface AuthState {
   user: User | null
   isLoading: boolean
   isConfigured: boolean
 
-  // Actions
   initialize: () => Promise<void>
   signUp: (email: string, password: string) => Promise<{ error?: string }>
   signIn: (email: string, password: string) => Promise<{ error?: string }>
@@ -16,7 +14,7 @@ interface AuthState {
   signOut: () => Promise<void>
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoading: true,
   isConfigured: isSupabaseConfigured,
@@ -28,7 +26,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     }
 
     try {
-      // Timeout after 5 seconds so the app doesn't hang in Electron
       const sessionPromise = supabase.auth.getSession()
       const timeoutPromise = new Promise<null>((resolve) =>
         setTimeout(() => resolve(null), 5000)
@@ -43,7 +40,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ user: result.data.session?.user ?? null, isLoading: false })
       }
 
-      // Listen for auth changes
       supabase.auth.onAuthStateChange((_event, session) => {
         set({ user: session?.user ?? null })
       })
@@ -78,10 +74,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       return { error: 'Supabase nicht konfiguriert.' }
     }
 
-    // In Electron: use custom protocol for OAuth callback
     const redirectTo = window.location.origin.startsWith('file:')
       ? 'lektorat://auth/callback'
-      : window.location.origin + '/auth/callback'
+      : window.location.origin + '/lektorat-ui/'
 
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
