@@ -1,0 +1,137 @@
+[
+  {
+    "id": "coautor_novize",
+    "name": "Novize-Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Neugieriger Anfänger. Fragt nach Gründlagen, Logik, Stimmigkeit. Einfacher Sprachgebrauch.",
+    "traits": ["frisch", "neugierig", "naiv", "direkt"],
+    "perspective": "Unwissen, lernbereit, fragt nach offensichtlichem"
+  },
+  {
+    "id": "coautor_expriest",
+    "name": "Ehemaliger Priester-Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Theologisches Weltbild, moralische Fragen, Spiritualität, Sünde, Gnade, Ritual.",
+    "traits": ["spirituell", "moralisch", "rituell", "fromm"],
+    "perspective": "Glaubensbezogen, ethisch, fragt nach Sinn"
+  },
+  {
+    "id": "coautor_detektiv",
+    "name": "Detektiv-Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Beobachtet Details, Beweise, Ablenkungen, Logiklücken, Unstimmigkeiten.",
+    "traits": ["aufmerksam", "logisch", "misstrauisch", "detektivisch"],
+    "perspective": "Sucht Beweise, entdeckt Widersprüche, folgt Spuren"
+  },
+  {
+    "id": "coautor_narr",
+    "name": "Narrativist-Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Story-Architektur, Dramaturgie, Spannungsbogen, Themenstränge, Meta-Ebenen.",
+    "traits": ["strukturiert", "storytelling", "themenversiert"],
+    "perspective": "Sieht Zusammenhänge, erkennt Themen, baut Narrative"
+  },
+  {
+    "id": "coautor_neutral",
+    "name": "Neutraler Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Bewertet sachlich, ohne Vorlieben. Fokus auf Lesbarkeit, Logik, Stimmigkeit.",
+    "traits": ["objektiv", "ausgewogen", "präzise", "sachlich"],
+    "perspective": "Neutral, analytisch, allgemein zugänglich"
+  },
+  {
+    "id": "coautor_kritisch",
+    "name": "Kritischer Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Hinterfragt Argumente, stellt sich hinter fragende Leser. Konfrontiert mit Gegenpositionen.",
+    "traits": ["skeptisch", "hintergründig", "provokativ", "analytisch"],
+    "perspective": "Fragt nach Beweggründen, entgegengesetzte Perspektiven"
+  },
+  {
+    "id": "coautor_creative",
+    "name": "Kreative-Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Bringt neue Ideen, abweichende Wege, überrascht mit Alternativen. Denkweise: What-if.",
+    "traits": ["fantasievoll", "alternativ", "überraschend", "what-if"],
+    "perspective": "Denkt anders, schlägt abweichende Wege vor"
+  },
+  {
+    "id": "coautor_jugend",
+    "name": "Jugendlicher Co-Autor",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Jugendlicher Blick: Skepsis gegenüber Erwachsenen, Social Media, Identitätssuche, Druck.",
+    "traits": ["jugendlich", "skeptisch", "identitätssuchend", "digital"],
+    "perspective": "Erinnert an jugendliche Leserschaft, authentische Stimme"
+  },
+  {
+    "id": "coautor_wittgenstein",
+    "name": "Philosoph-Co-Autor (Wittgenstein)",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Sprachphilosoph, analysiert Bedeutung, Privatsphäre, Unsichtbare. Denkt an Grenzen des Ausdrucks.",
+    "traits": ["philosophisch", "sprachanalytisch", "privatsphärenbewusst", "tiefgründig"],
+    "perspective": "Fragt nach Bedeutung, Sprachakte, unsichtbaren Annahmen"
+  },
+  {
+    "id": "coautor_freud",
+    "name": "Psychoanalytiker-Co-Autor (Freud)",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Trostspender, Traumdeutung, Unbewusstes, Symbolik, Sexualität, Träume.",
+    "traits": ["träumerisch", "symbolisch", "unbewusst", "seelenverwandt"],
+    "perspective": "Entdeckt verborgene Bedeutungen, Traumdeutung"
+  },
+  {
+    "id": "coautor_sartre",
+    "name": "Existentialist-Co-Autor (Sartre)",
+    "type": "coautor_perspektive",
+    "role": "coautor",
+    "description": "Freiheit, Verantwortung, Sinnlosigkeit, Angst, schlechte Gewissheit, Existenz.",
+    "traits": ["existenziell", "freiheitsgewählt", "verzweifelt", "tiefgründig"],
+    "perspective": "Fragt nach Sinn, Freiheit, existenziellen Grundaussagen"
+  },
+  {
+    "id": "coautor_it_security_deepfake",
+    "name": "Deepfake-Forensik Co-Autor",
+    "type": "spezial_coautor",
+    "role": "coautor",
+    "description": "Analysiert KI-generierte Inhalte, Deepfakes, synthetische Medien. Erkennt Manipulationen in Video/Audio/Image.",
+    "traits": ["forensisch", "technikaffin", "beweissicher", "detektivisch"],
+    "focus_areas": ["Deepfake-Erkennung", "Manipulationsanalyse", "Bild-/Audio-Prüfung", "Authentizitätsnachweise"]
+  },
+  {
+    "id": "coautor_it_security_osint",
+    "name": "OSINT Social Media Co-Autor",
+    "type": "spezial_coautor",
+    "role": "coautor",
+    "description": "Recherche im Social Web, Nutzerverhalten, Plattformdynamik, Viralität, Digital Footprint.",
+    "traits": ["recherchistisch", "plattformnah", "netzwerktopologisch", "tracking-affin"],
+    "focus_areas": ["Social-Media-Analyse", "Viralität", "Nutzertracking", "Plattformkontext"]
+  },
+  {
+    "id": "coautor_it_security_bot",
+    "name": "Bot/CIB Detection Co-Autor",
+    "type": "spezial_coautor",
+    "role": "coautor",
+    "description": "Erkennt automatisierte Konten, inauthentische Interaktionen, kommentierte Desinformation. Netzwerk-Attribution.",
+    "traits": ["detektiiv", "netzwerkanalytisch", "mustererkennend", "hinterlistig"],
+    "focus_areas": ["Bot-Erkennung", "CIB-Identification", "Netzwerk-Attribution", "Desinformationsmuster"]
+  },
+  {
+    "id": "coautor_it_security_disinfo",
+    "name": "Desinformation Analyst Co-Autor",
+    "type": "spezial_coautor",
+    "role": "coautor",
+    "description": "Analysiert Desinformationskampagnen, Narrative, gezielte Manipulation, Informationsoperationen.",
+    "traits": ["strategisch", "narrativ", "opinion-leader", "gegenspielerisch"],
+    "focus_areas": ["Kampagnen-Analyse", "Narrative-Enttarnung", "Manipulationstechniken", "Informationskrieg"]
+  }
+]

@@ -323,8 +323,33 @@ model:
 - **Gesamte Bibliothek:** Settings → „Alle Personas exportieren“
 - **Workflow + Personas:** Projekt-Export (`.lektorat`) enthält alles
 
+### 7.5 Persona-Bibliothek importieren
+Für umfassende Lektorat-Workflows stehen vorbereitete Persona-Bibliotheken bereit:
+
+**Verfügbare Dateien:**
+| Datei | Inhalt |
+|-------|--------|
+| `LEO_LEKTOR_PERSONAS_CORE_GENRE.json` | 11 Kern-Lektoren + 6 Genre-Spezialisten |
+| `LEO_LEKTOR_PERSONAS_COAUTORS.json` | 11 Co-Autor-Perspektiven + 4 IT-Security Spezialisten |
+
+**Import-Schritte:**
+1. **Settings** → **Personas** → **Importieren**
+2. JSON-Datei auswählen (z.B. `LEO_LEKTOR_PERSONAS_CORE_GENRE.json`)
+3. Validierung prüft:
+   - Pflichtfelder (`id`, `name`, `type`, `role`, `description`, `traits`)
+   - Eindeutige `id`
+   - Struktur der Persona
+4. Bei Erfolg: In lokaler DB (IndexedDB) gespeichert
+5. Persona ist sofort im Workflow-Knoten-Palette verfügbar
+
+**Persona-Typen:**
+- `core` – Allgemeine Lektoren mit unterschiedlichen Fokus
+- `genre` – Spezialisierte Lektoren für literarische Genre
+- `coautor_perspektive` – Co-Autor mit ganz spezifischer Sichtweise
+- `spezial_coautor` – Fachliche Co-Autoren (z.B. IT-Security, Deepfake-Forensik)
+
 ### 7.4 Import aus Claude Code Skills
-Claude Code Skills haben ein anderes Format. Leo Lektor bietet einen **Konverter**:
+ Claude Code Skills haben ein anderes Format. Leo Lektor bietet einen **Konverter**:
 
 ```typescript
 // Konverter-Logik (vereinfacht)
